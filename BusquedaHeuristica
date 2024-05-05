@@ -1,0 +1,45 @@
+import random
+
+# Supongamos que tenemos una lista de desplazamientos posibles en la cinta transportadora
+desplazamientos_posibles = [-0.1, -0.05, 0, 0.05, 0.1]
+
+# Función para simular el montaje y evaluar el desplazamiento total
+def simular_montaje(desplazamientos):
+    desplazamiento_total = sum(desplazamientos)
+    # Aquí iría la lógica para simular el montaje y calcular el desplazamiento total
+    # Podría ser una función más compleja que simule el proceso completo de montaje
+    # En este caso ejemplo devolvemos el desplazamiento total
+    return desplazamiento_total
+
+# Generar una configuración inicial aleatoria
+configuracion_actual = [random.choice(desplazamientos_posibles) for _ in range(len(desplazamientos_posibles))]
+
+# Parámetros del algoritmo
+tasa_aprendizaje = 0.01
+tolerancia = 0.0001
+num_max_iteraciones = 1000
+
+# Búsqueda heurística por descenso del gradiente
+for _ in range(num_max_iteraciones):
+    # Calcular el desplazamiento actual
+    desplazamiento_actual = simular_montaje(configuracion_actual)
+    
+    # Calcular el gradiente
+    gradiente = []
+    for i in range(len(configuracion_actual)):
+        configuracion_vecina = configuracion_actual[:]
+        configuracion_vecina[i] += 0.01  # Pequeño cambio en el desplazamiento
+        desplazamiento_vecino = simular_montaje(configuracion_vecina)
+        derivada_parcial = (desplazamiento_vecino - desplazamiento_actual) / 0.01
+        gradiente.append(derivada_parcial)
+    
+    # Actualizar la configuración
+    configuracion_actual = [d - tasa_aprendizaje * grad for d, grad in zip(configuracion_actual, gradiente)]
+    
+    # Verificar la convergencia
+    nuevo_desplazamiento = simular_montaje(configuracion_actual)
+    if abs(nuevo_desplazamiento - desplazamiento_actual) < tolerancia:
+        break
+
+print("Mejor configuración encontrada:", configuracion_actual)
+print("Desplazamiento total:", nuevo_desplazamiento)
