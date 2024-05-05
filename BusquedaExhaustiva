@@ -1,0 +1,29 @@
+import itertools
+
+# Supongamos que tenemos una lista de desplazamientos posibles en la cinta transportadora
+desplazamientos_posibles = [-0.1, -0.05, 0, 0.05, 0.1]
+
+# Función para simular el montaje y evaluar el desplazamiento total
+def simular_montaje(desplazamientos):
+    desplazamiento_total = sum(desplazamientos)
+    # Aquí iría la lógica para simular el montaje y calcular el desplazamiento total
+    # Podría ser una función más compleja que simule el proceso completo de montaje
+    return desplazamiento_total
+
+# Búsqueda exhaustiva
+mejor_desplazamiento = float('inf')  # Inicializamos con un valor muy grande
+mejor_configuracion = None
+
+for configuracion in itertools.product(desplazamientos_posibles, repeat=len(desplazamientos_posibles)):
+    desplazamiento_actual = simular_montaje(configuracion)
+    if desplazamiento_actual < mejor_desplazamiento:
+        mejor_desplazamiento = desplazamiento_actual
+        mejor_configuracion = configuracion
+
+print("Mejor configuración encontrada:", mejor_configuracion)
+print("Desplazamiento total:", mejor_desplazamiento)
+
+-------RESULTADO-----
+
+Mejor configuración encontrada: (-0.1, -0.1, -0.1, -0.1, -0.1)
+Desplazamiento total: -0.5
